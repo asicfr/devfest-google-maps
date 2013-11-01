@@ -11,14 +11,14 @@ angular.module('app', [])
 
     .directive('gmaps', function factory($timeout) {
         return {
-            restrict: 'A',
+            restrict: 'EA',
+            template: '<div class="gmaps"></div>',
+            replace: true,
             scope: {
                 zoom: '=zoom',
                 center: '=center'
             },
             link: function postLink(scope, element, attrs) {
-
-                element.addClass('gmaps');
 
                 var mapOptions = {
                     center: new google.maps.LatLng(scope.center.lat, scope.center.lng),
