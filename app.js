@@ -9,7 +9,7 @@ angular.module('app', [])
         ];
     })
 
-    .directive('gmaps', function factory() {
+    .directive('gmaps', function factory($timeout) {
         return {
             restrict: 'A',
             scope: {
@@ -37,6 +37,21 @@ angular.module('app', [])
                         parseFloat(newValue.lng))
                     );
                 }, true);
+
+                google.maps.event.addListener(map, 'zoom_changed', function () {
+                    $timeout(function () {
+                        scope.zoom = map.getZoom();
+                    });
+                });
+
+                google.maps.event.addListener(map, 'center_changed', function () {
+                    $timeout(function () {
+                        scope.center = {
+                            lat: map.getCenter().lat(),
+                            lng: map.getCenter().lng()
+                        };
+                    });
+                });
 
             }
         };
