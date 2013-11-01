@@ -12,14 +12,17 @@ angular.module('app', [])
     .directive('gmaps', function factory() {
         return {
             restrict: 'A',
-            scope: false,
+            scope: {
+                zoom: '=zoom',
+                center: '=center'
+            },
             link: function postLink(scope, element, attrs) {
 
                 element.addClass('gmaps');
 
                 var mapOptions = {
-                    center: new google.maps.LatLng(-34.397, 150.644),
-                    zoom: 8,
+                    center: new google.maps.LatLng(scope.center.lat, scope.center.lng),
+                    zoom: scope.zoom,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
                 var map = new google.maps.Map(element[0], mapOptions);
