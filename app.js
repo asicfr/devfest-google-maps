@@ -27,6 +27,17 @@ angular.module('app', [])
                 };
                 var map = new google.maps.Map(element[0], mapOptions);
 
+                scope.$watch('zoom', function (newValue) {
+                    map.setZoom(parseInt(newValue));
+                });
+
+                scope.$watch('center', function (newValue) {
+                    map.setCenter(new google.maps.LatLng(
+                        parseFloat(newValue.lat),
+                        parseFloat(newValue.lng))
+                    );
+                }, true);
+
             }
         };
     });
