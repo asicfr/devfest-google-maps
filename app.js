@@ -9,7 +9,9 @@ angular.module('app', [])
         ];
     })
 
-    .directive('gmaps', function factory($timeout) {
+    .value('snapshots', [])
+
+    .directive('gmaps', function factory($timeout, snapshots) {
         return {
             restrict: 'EA',
             templateUrl: 'gmaps.html',
@@ -53,7 +55,7 @@ angular.module('app', [])
                     });
                 });
 
-                scope.snapshots = [];
+                scope.snapshots = snapshots;
                 scope.addMarker = function () {
                     scope.waiting = true;
                     var snapshot = {
