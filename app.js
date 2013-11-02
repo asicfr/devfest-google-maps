@@ -9,7 +9,9 @@ angular.module('app', [])
         ];
     })
 
-    .directive('gmaps', function factory($timeout) {
+    .value('snapshots', [])
+
+    .directive('gmaps', function factory($timeout, snapshots) {
         return {
             restrict: 'EA',
             templateUrl: 'gmaps.html',
@@ -53,29 +55,29 @@ angular.module('app', [])
                     });
                 });
 
-                scope.markers = [];
+                scope.snapshots = snapshots;
                 scope.addMarker = function () {
-                    var marker = {
+                    var snapshot = {
                         lat: parseFloat(scope.center.lat),
                         lng: parseFloat(scope.center.lng),
                         zoom: parseInt(scope.zoom),
-                        label: scope.markerLabel
+                        label: scope.label
                     };
-                    scope.markerLabel = '';
+                    scope.label = '';
                     scope.waiting = true;
                     $timeout(function () {
-                        scope.markers.push(marker);
+                        scope.snapshots.push(snapshot);
                         scope.waiting = false;
                     }, 2000);
                     new google.maps.Marker({
-                        position: new google.maps.LatLng(marker.lat, marker.lng),
+                        position: new google.maps.LatLng(snapshot.lat, snapshot.lng),
                         map: map,
-                        title: marker.label
+                        title: snapshot.label
                     });
                 };
-                scope.goto = function (marker) {
-                    map.setZoom(marker.zoom);
-                    map.setCenter(new google.maps.LatLng(marker.lat, marker.lng));
+                scope.goto = function (snapshot) {
+                    map.setZoom(snapshot.zoom);
+                    map.setCenter(new google.maps.LatLng(snapshot.lat, snapshot.lng));
                 };
             }
         };
