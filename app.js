@@ -53,6 +53,14 @@ angular.module('app', [])
                     });
                 });
 
+                scope.addMarker = function () {
+                    new google.maps.Marker({
+                        position: new google.maps.LatLng(scope.center.lat, scope.center.lng),
+                        map: map,
+                        title: scope.label
+                    });
+                    scope.label = '';
+                };
             }
         };
     });
