@@ -53,13 +53,24 @@ angular.module('app', [])
                     });
                 });
 
+                scope.snapshots = [];
                 scope.addMarker = function () {
+                    scope.snapshots.push({
+                        lat: parseFloat(scope.center.lat),
+                        lng: parseFloat(scope.center.lng),
+                        zoom: parseInt(scope.zoom),
+                        label: scope.label
+                    });
                     new google.maps.Marker({
                         position: new google.maps.LatLng(scope.center.lat, scope.center.lng),
                         map: map,
                         title: scope.label
                     });
                     scope.label = '';
+                };
+                scope.goto = function (snapshot) {
+                    map.setZoom(snapshot.zoom);
+                    map.setCenter(new google.maps.LatLng(snapshot.lat, snapshot.lng));
                 };
             }
         };
