@@ -55,16 +55,21 @@ angular.module('app', [])
 
                 scope.snapshots = [];
                 scope.addMarker = function () {
-                    scope.snapshots.push({
+                    scope.waiting = true;
+                    var snapshot = {
                         lat: parseFloat(scope.center.lat),
                         lng: parseFloat(scope.center.lng),
                         zoom: parseInt(scope.zoom),
                         label: scope.label
-                    });
+                    };
+                    $timeout(function () {
+                        scope.snapshots.push(snapshot);
+                        scope.waiting = false;
+                    }, 2000);
                     new google.maps.Marker({
-                        position: new google.maps.LatLng(scope.center.lat, scope.center.lng),
+                        position: new google.maps.LatLng(snapshot.lat, snapshot.lng),
                         map: map,
-                        title: scope.label
+                        title: snapshot.label
                     });
                     scope.label = '';
                 };
