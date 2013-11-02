@@ -1,9 +1,10 @@
 <div>
     <div class="gmaps"></div>
-    <form ng-submit="addMarker()" name="form">
-        <input ng-model="label" required/>
+    <form name="form" ng-submit="addMarker()">
+        <input type="text" ng-model="label" required/>
         <input type="submit" value="Marqueur" ng-disabled="form.$invalid"/>
     </form>
-    <button ng-repeat="snapshot in snapshots" ng-click="goto(snapshot)">{{snapshot.label}}</button>
+    <button ng-repeat="snapshot in snapshots"
+            ng-click="goto(snapshot)">{{snapshot.label}}</button>
     <img src="ajax-loader.gif" ng-show="waiting"/>
 </div>

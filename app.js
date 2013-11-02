@@ -57,14 +57,13 @@ angular.module('app', [])
 
                 scope.snapshots = snapshots;
                 scope.addMarker = function () {
+                    scope.waiting = true;
                     var snapshot = {
                         lat: parseFloat(scope.center.lat),
                         lng: parseFloat(scope.center.lng),
                         zoom: parseInt(scope.zoom),
                         label: scope.label
                     };
-                    scope.label = '';
-                    scope.waiting = true;
                     $timeout(function () {
                         scope.snapshots.push(snapshot);
                         scope.waiting = false;
@@ -74,6 +73,7 @@ angular.module('app', [])
                         map: map,
                         title: snapshot.label
                     });
+                    scope.label = '';
                 };
                 scope.goto = function (snapshot) {
                     map.setZoom(snapshot.zoom);
