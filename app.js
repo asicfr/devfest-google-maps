@@ -12,7 +12,7 @@ angular.module('app', [])
     .directive('gmaps', function factory($timeout) {
         return {
             restrict: 'EA',
-            template: '<div class="gmaps"></div>',
+            templateUrl: 'gmaps.html',
             replace: true,
             scope: {
                 zoom: '=zoom',
@@ -25,7 +25,7 @@ angular.module('app', [])
                     zoom: scope.zoom,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
-                var map = new google.maps.Map(element[0], mapOptions);
+                var map = new google.maps.Map(element.find('div')[0], mapOptions);
 
                 scope.$watch('zoom', function (newValue) {
                     map.setZoom(parseInt(newValue));
