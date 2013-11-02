@@ -12,7 +12,7 @@ angular.module('app', [])
     .directive('gmaps', function factory($timeout) {
         return {
             restrict: 'EA',
-            template: '<div class="gmaps"></div>',
+            templateUrl: 'gmaps.html',
             replace: true,
             scope: {
                 zoom: '=zoom',
@@ -25,7 +25,7 @@ angular.module('app', [])
                     zoom: scope.zoom,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
-                var map = new google.maps.Map(element[0], mapOptions);
+                var map = new google.maps.Map(element.find('div')[0], mapOptions);
 
                 scope.$watch('zoom', function (newValue) {
                     map.setZoom(parseInt(newValue));
@@ -53,6 +53,30 @@ angular.module('app', [])
                     });
                 });
 
+                scope.markers = [];
+                scope.addMarker = function () {
+                    var marker = {
+                        lat: parseFloat(scope.center.lat),
+                        lng: parseFloat(scope.center.lng),
+                        zoom: parseInt(scope.zoom),
+                        label: scope.markerLabel
+                    };
+                    scope.markerLabel = '';
+                    scope.waiting = true;
+                    $timeout(function () {
+                        scope.markers.push(marker);
+                        scope.waiting = false;
+                    }, 2000);
+                    new google.maps.Marker({
+                        position: new google.maps.LatLng(marker.lat, marker.lng),
+                        map: map,
+                        title: marker.label
+                    });
+                };
+                scope.goto = function (marker) {
+                    map.setZoom(marker.zoom);
+                    map.setCenter(new google.maps.LatLng(marker.lat, marker.lng));
+                };
             }
         };
     });
