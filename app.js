@@ -76,8 +76,11 @@ angular.module('app', [])
                     scope.label = '';
                 };
                 scope.goto = function (snapshot) {
-                    map.setZoom(snapshot.zoom);
-                    map.setCenter(new google.maps.LatLng(snapshot.lat, snapshot.lng));
+                    scope.zoom = snapshot.zoom;
+                    scope.center = {
+                        lat: snapshot.lat,
+                        lng: snapshot.lng
+                    };
                 };
             }
         };
